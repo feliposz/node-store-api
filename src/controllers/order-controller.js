@@ -1,8 +1,8 @@
-const repository = require('../repositories/order-repository');
-const authService = require('../services/auth-service');
-const guid = require('guid');
+import * as repository from '../repositories/order-repository';
+import * as authService from '../services/auth-service';
+import * as guid from 'guid';
 
-exports.get = async (req, res, next) => {
+export async function get (req, res, next) {
     try {
         const data = await repository.getAll();
         res.status(200).send(data);
@@ -11,11 +11,12 @@ exports.get = async (req, res, next) => {
     }
 };
 
-exports.post = async (req, res, next) => {
+export async function post (req, res, next) {
     try {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
         const customer = authService.decodeToken(token);
         await repository.create({
+            // @ts-ignore
             customer: customer.id,
             number: guid.raw().substring(0, 6),
             items: req.body.items

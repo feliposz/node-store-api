@@ -1,5 +1,5 @@
-const app = require('../src/app');
-const http = require('http');
+import * as app from './app';
+import * as http from 'http';
 const debug = require('debug')('store:server');
 
 const port = normalizePort(process.env.PORT || '3000');
@@ -56,6 +56,6 @@ function onListening() {
     const addr = server.address();
     const bind = typeof addr === 'string'
         ? 'pipe ' + addr
-        : 'port ' + addr.port;
+        : 'port ' + addr?.port;
     debug('Listening on ' + bind);
 }

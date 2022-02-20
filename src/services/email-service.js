@@ -1,12 +1,12 @@
-const config = require('../config');
+import * as config from '../config';
+import * as sendgrid from '@sendgrid/mail';
 const debug = require('debug')('store:email-service');
-const sendgrid = require('@sendgrid/mail');
 
 if (config.sendgridKey) {
     sendgrid.setApiKey(config.sendgridKey);
 }
 
-exports.send = async (to, subject, body) => {
+export async function send (to, subject, body) {
     const from = config.sendgridSender;
     if (config.sendgridKey) {
         sendgrid.send({

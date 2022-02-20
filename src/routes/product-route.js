@@ -1,7 +1,7 @@
-const express = require('express');
+import * as express from 'express';
 const router = express.Router();
-const controller = require('../controllers/product-controller');
-const authService = require('../services/auth-service');
+import * as controller from '../controllers/product-controller';
+import * as authService from '../services/auth-service';
 
 router.get('/', controller.get);
 router.get('/:slug', controller.getBySlug);
@@ -9,6 +9,6 @@ router.get('/admin/:id', controller.getById);
 router.get('/tags/:tag', controller.getByTag);
 router.post('/', authService.isAdmin, controller.post);
 router.put('/:id', authService.isAdmin, controller.put);
-router.delete('/:id', authService.isAdmin, controller.delete);
+router.delete('/:id', authService.isAdmin, controller.remove);
 
-module.exports = router;
+export default router;

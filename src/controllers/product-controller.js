@@ -1,9 +1,9 @@
-const guid = require('guid');
-const repository = require('../repositories/product-repository');
-const storageService = require('../services/storage-service');
-const ValidationContract = require('../validators/fluent-validator');
+import * as guid from 'guid';
+import * as repository from '../repositories/product-repository';
+import * as storageService from '../services/storage-service';
+import ValidationContract from '../validators/fluent-validator';
 
-exports.get = async (req, res, next) => {
+export async function get (req, res, next) {
     try {
         var data = await repository.getAll();
         res.status(200).send(data);
@@ -12,7 +12,7 @@ exports.get = async (req, res, next) => {
     }
 };
 
-exports.getBySlug = async (req, res, next) => {
+export async function getBySlug (req, res, next) {
     try {
         var data = await repository.getBySlug(req.params.slug);
         if (data) {
@@ -25,7 +25,7 @@ exports.getBySlug = async (req, res, next) => {
     }
 }
 
-exports.getById = async (req, res, next) => {
+export async function getById (req, res, next) {
     try {
         var data = await repository.getById(req.params.id);
         if (data) {
@@ -38,7 +38,7 @@ exports.getById = async (req, res, next) => {
     }
 }
 
-exports.getByTag = async (req, res, next) => {
+export async function getByTag (req, res, next) {
     try {
         var data = await repository.getByTag(req.params.tag);
         res.status(200).send(data);
@@ -47,7 +47,7 @@ exports.getByTag = async (req, res, next) => {
     }
 }
 
-exports.post = async (req, res, next) => {
+export async function post (req, res, next) {
     let contract = new ValidationContract();
     contract.hasMinLen(req.body.title, 3, 'Title must have at least 3 characters');
     contract.hasMinLen(req.body.slug, 3, 'Slug must have at least 3 characters');
@@ -84,7 +84,7 @@ exports.post = async (req, res, next) => {
     }
 };
 
-exports.put = async (req, res, next) => {
+export async function put (req, res, next) {
     try {
         await repository.update(req.params.id, req.body);
         res.status(201).send({
@@ -97,9 +97,9 @@ exports.put = async (req, res, next) => {
     }
 };
 
-exports.delete = async (req, res, next) => {
+export async function remove (req, res, next) {
     try {
-        await repository.delete(req.params.id);
+        await repository.remove(req.params.id);
         res.status(201).send({
             message: "Product deleted successfully"
         });

@@ -1,18 +1,18 @@
-const mongoose = require('mongoose');
+import * as mongoose from 'mongoose';
 const Customer = mongoose.model('Customer');
 
-exports.create = async (data) => {
+export async function create (data) {
     var customer = new Customer(data);
     await customer.save();
 };
 
-exports.authenticate = async (data) => {
+export async function authenticate (data) {
     return await Customer.findOne({
         email: data.email,
         password: data.password
     });
 };
 
-exports.getById = async (id) => {
+export async function getById (id) {
     return await Customer.findById(id);
 }

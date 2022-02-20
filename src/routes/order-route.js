@@ -1,10 +1,10 @@
-const express = require('express');
-const controller = require('../controllers/order-controller');
-const authService = require('../services/auth-service');
+import * as express from 'express';
+import * as controller from '../controllers/order-controller';
+import * as authService from '../services/auth-service';
 
 const router = express.Router();
 
 router.get('/', authService.authorize, controller.get);
 router.post('/', authService.authorize, controller.post);
 
-module.exports = router;
+export default router;

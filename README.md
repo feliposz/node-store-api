@@ -1,10 +1,10 @@
 # node-store-api
 
-A REST API for a fictional store.
+A REST API for a fictional online store.
 
 ## Technologies
 
-- Javascript
+- Typescript
 - Node.js
     - Nodemon
     - Express.js

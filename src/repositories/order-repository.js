@@ -1,14 +1,14 @@
-const mongoose = require('mongoose');
+import * as mongoose from 'mongoose';
 const Order = mongoose.model('Order');
 
-exports.getAll = async () => {
+export async function getAll () {
     return await Order
         .find({}, 'number')
         .populate('customer', 'name')
         .populate('items.product', 'title price');
 };
 
-exports.create = async (data) => {
+export async function create (data) {
     const order = new Order(data);
     return await order.save();
 };

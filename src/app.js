@@ -1,16 +1,16 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+import express from 'express';
+import * as bodyParser from 'body-parser';
+import * as mongoose from 'mongoose';
+import * as config from './config';
 const debug = require('debug')('store:app');
-const mongoose = require('mongoose');
-const config = require('./config');
 
 const app = express();
 
 mongoose.connect(config.connectionString);
 
-const Product = require('./models/product');
-const Customer = require('./models/customer');
-const Order = require('./models/order');
+import * as Product from './models/product';
+import * as Customer from './models/customer';
+import * as Order from './models/order';
 
 app.use(bodyParser.json({
     limit: '5mb'
@@ -32,10 +32,10 @@ app.use((req, res, next) => {
     next();
 });
 
-const indexRoute = require('./routes/index-route');
-const productRoute = require('./routes/product-route');
-const customerRoute = require('./routes/customer-route');
-const orderRoute = require('./routes/order-route');
+import indexRoute from './routes/index-route';
+import productRoute from './routes/product-route';
+import customerRoute from './routes/customer-route';
+import orderRoute from './routes/order-route';
 
 app.use('/', indexRoute);
 app.use('/products', productRoute);
