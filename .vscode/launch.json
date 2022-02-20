@@ -8,7 +8,7 @@
             "smartStep": false,
             "sourceMaps": true,
             "args": [
-                "${workspaceFolder}/src/server.js"
+                "${workspaceFolder}/src/server.ts"
             ],
             "runtimeArgs": [
                 "-r",
