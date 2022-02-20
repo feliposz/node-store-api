@@ -1,55 +1,54 @@
-let errors = [];
+class ValidationContract {
 
-function ValidationContract() {
-    errors = [];
-}
+    private _errors: { message: string } [] = [];
 
-ValidationContract.prototype.isRequired = (value, message) => {
-    if (!value || value.length <= 0)
-        errors.push({
-            message: message
-        });
-}
+    isRequired(value: string, message: string): void {
+        if (!value || value.length <= 0)
+            this._errors.push({
+                message: message
+            });
+    }
 
-ValidationContract.prototype.hasMinLen = (value, min, message) => {
-    if (!value || value.length < min)
-        errors.push({
-            message: message
-        });
-}
+    hasMinLen(value: string, min: number, message: string): void {
+        if (!value || value.length < min)
+            this._errors.push({
+                message: message
+            });
+    }
 
-ValidationContract.prototype.hasMaxLen = (value, max, message) => {
-    if (!value || value.length > max)
-        errors.push({
-            message: message
-        });
-}
+    hasMaxLen(value: string, max: number, message: string): void {
+        if (!value || value.length > max)
+            this._errors.push({
+                message: message
+            });
+    }
 
-ValidationContract.prototype.isFixedLen = (value, len, message) => {
-    if (!value || value.length !== len)
-        errors.push({
-            message: message
-        });
-}
+    isFixedLen(value: string, len: number, message: string): void {
+        if (!value || value.length !== len)
+            this._errors.push({
+                message: message
+            });
+    }
 
-ValidationContract.prototype.isEmail = (value, message) => {
-    var reg = new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
-    if (!value || !reg.test(value))
-        errors.push({
-            message: message
-        });
-}
+    isEmail(value: string, message: string): void {
+        var reg = new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
+        if (!value || !reg.test(value))
+            this._errors.push({
+                message: message
+            });
+    }
 
-ValidationContract.prototype.errors = () => {
-    return errors;
-}
+    errors(): { message: string; }[] {
+        return this._errors;
+    }
 
-ValidationContract.prototype.clear = () => {
-    errors = [];
-}
+    clear(): void {
+        this._errors = [];
+    }
 
-ValidationContract.prototype.isValid = () => {
-    return errors.length == 0;
+    isValid(): boolean {
+        return this._errors.length === 0;
+    }
 }
 
 export default ValidationContract;

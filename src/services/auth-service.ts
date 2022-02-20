@@ -1,17 +1,19 @@
-import * as config from '../config';
+import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 
-export function generateToken (data) {
+type Payload = { id: any, email: string, name: string, roles: string[] };
+
+export function generateToken(data: Payload): string {
     return jwt.sign(data, global.SALT_KEY, {
         expiresIn: '1d'
     });
 }
 
-export function decodeToken (token) {
+export function decodeToken(token: string): string | jwt.JwtPayload {
     return jwt.verify(token, global.SALT_KEY);
 }
 
-export function authorize (req, res, next) {
+export function authorize(req: Request, res: Response, next: NextFunction): void {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
     if (!token) {
@@ -31,7 +33,7 @@ export function authorize (req, res, next) {
     }
 };
 
-export function isAdmin (req, res, next) {
+export function isAdmin(req: Request, res: Response, next: NextFunction): void {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
     if (!token) {

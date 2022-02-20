@@ -1,16 +1,17 @@
-import express from 'express';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import * as bodyParser from 'body-parser';
-import * as mongoose from 'mongoose';
-import * as config from './config';
-const debug = require('debug')('store:app');
+import config from './config';
+import Debug from 'debug';
+const debug = Debug('store:app');
 
-const app = express();
+const app: Application = express();
 
-mongoose.connect(config.connectionString);
+import { connect } from 'mongoose';
+connect(config.connectionString);
 
-import * as Product from './models/product';
-import * as Customer from './models/customer';
-import * as Order from './models/order';
+import './models/product';
+import './models/customer';
+import './models/order';
 
 app.use(bodyParser.json({
     limit: '5mb'
@@ -20,14 +21,14 @@ app.use(bodyParser.urlencoded({
 }));
 
 // CORS
-app.use((req, res, next) => {
-    res.set('Access-Control-Allow-Origin', '*');
-    res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
-    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    next();
-});
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//     next();
+// });
 
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
     debug(`${req.method} ${req.url}`);
     next();
 });
@@ -42,4 +43,4 @@ app.use('/products', productRoute);
 app.use('/customers', customerRoute);
 app.use('/orders', orderRoute);
 
-module.exports = app;
+export default app;

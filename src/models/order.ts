@@ -1,9 +1,20 @@
-import * as mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import { Schema, Types, model } from 'mongoose';
 
-const schema = new Schema({
+interface Order {
+    customer: Types.ObjectId,
+    number: string,
+    createDate: Date,
+    status: string,
+    items: {
+        quantity: number,
+        price: number,
+        product: Types.ObjectId
+    }[]
+}
+
+const schema = new Schema<Order>({
     customer: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Customer'
     },
     number: {
@@ -32,10 +43,12 @@ const schema = new Schema({
             required: true
         },
         product: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'Product'
         }
     }]
 });
 
-module.exports = mongoose.model('Order', schema);
+const OrderModel = model('Order', schema);
+
+export default OrderModel;

@@ -1,13 +1,14 @@
-import * as azure from 'azure-storage';
-import * as config from '../config';
-const debug = require('debug')('store:storage-service');
+import azure from 'azure-storage';
+import config from '../config';
+import Debug from 'debug';
+const debug = Debug('store:storage-service');
 
-export async function storeImageBase64 (filename, container, rawdata) {
+export async function storeImageBase64(filename: string, container: string, rawdata: string): Promise<boolean> {
     if (config.azureContainerConnectString) {
 
         const matches = rawdata.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
 
-        if (matches.length > 2) {
+        if (matches && matches.length > 2) {
             const type = matches[1];
             const buffer = Buffer.from(matches[2], 'base64');
 

@@ -1,9 +1,10 @@
+import { Request, Response, NextFunction } from 'express';
 import * as guid from 'guid';
 import * as repository from '../repositories/product-repository';
 import * as storageService from '../services/storage-service';
 import ValidationContract from '../validators/fluent-validator';
 
-export async function get (req, res, next) {
+export async function get(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         var data = await repository.getAll();
         res.status(200).send(data);
@@ -12,7 +13,7 @@ export async function get (req, res, next) {
     }
 };
 
-export async function getBySlug (req, res, next) {
+export async function getBySlug(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         var data = await repository.getBySlug(req.params.slug);
         if (data) {
@@ -25,7 +26,7 @@ export async function getBySlug (req, res, next) {
     }
 }
 
-export async function getById (req, res, next) {
+export async function getById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         var data = await repository.getById(req.params.id);
         if (data) {
@@ -38,7 +39,7 @@ export async function getById (req, res, next) {
     }
 }
 
-export async function getByTag (req, res, next) {
+export async function getByTag(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         var data = await repository.getByTag(req.params.tag);
         res.status(200).send(data);
@@ -47,7 +48,7 @@ export async function getByTag (req, res, next) {
     }
 }
 
-export async function post (req, res, next) {
+export async function post(req: Request, res: Response, next: NextFunction): Promise<void> {
     let contract = new ValidationContract();
     contract.hasMinLen(req.body.title, 3, 'Title must have at least 3 characters');
     contract.hasMinLen(req.body.slug, 3, 'Slug must have at least 3 characters');
@@ -80,11 +81,10 @@ export async function post (req, res, next) {
         res.status(400).send({
             message: "Failed to create product"
         });
-        throw e;
     }
 };
 
-export async function put (req, res, next) {
+export async function put(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         await repository.update(req.params.id, req.body);
         res.status(201).send({
@@ -97,7 +97,7 @@ export async function put (req, res, next) {
     }
 };
 
-export async function remove (req, res, next) {
+export async function remove(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         await repository.remove(req.params.id);
         res.status(201).send({
