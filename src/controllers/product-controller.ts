@@ -49,7 +49,7 @@ export async function getByTag(req: Request, res: Response, next: NextFunction):
 }
 
 export async function post(req: Request, res: Response, next: NextFunction): Promise<void> {
-    let contract = new ValidationContract();
+    const contract = new ValidationContract();
     contract.hasMinLen(req.body.title, 3, 'Title must have at least 3 characters');
     contract.hasMinLen(req.body.slug, 3, 'Slug must have at least 3 characters');
     contract.hasMinLen(req.body.description, 3, 'Description must have at least 3 characters');
@@ -60,9 +60,9 @@ export async function post(req: Request, res: Response, next: NextFunction): Pro
     }
 
     try {
-        let filename = guid.raw().toString() + '.jpg';
-        const result = await storageService.storeImageBase64(filename, 'product-images', req.body.image);
-        if (!result) {
+        let filename: string = guid.raw().toString() + '.jpg';
+        const success = await storageService.storeImageBase64(filename, 'product-images', req.body.image);
+        if (!success) {
             filename = 'default-product.png'
         }
 

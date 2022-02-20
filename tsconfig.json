@@ -5,7 +5,7 @@
         "outDir": "out",
         "rootDir": "src",
         "strict": true,
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "strictNullChecks": true,
         "checkJs": true,
         "allowJs": true,
@@ -19,7 +19,7 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "allowUnreachableCode": true,
+        "allowUnreachableCode": false,
         "useUnknownInCatchVariables": false
     },
     "include": [

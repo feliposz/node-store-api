@@ -77,7 +77,6 @@ export async function refresh(req: Request, res: Response, next: NextFunction): 
         const token = req.body.token || req.params.token || req.headers['x-access-token'];
         const data = authService.decodeToken(token);
 
-        // @ts-ignore
         const customer = await repository.getById(data.id);
 
         if (!customer) {

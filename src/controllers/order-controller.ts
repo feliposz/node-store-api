@@ -17,7 +17,6 @@ export async function post(req: Request, res: Response, next: NextFunction): Pro
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
         const customer = authService.decodeToken(token);
         await repository.create({
-            // @ts-ignore
             customer: customer.id,
             number: guid.raw().substring(0, 6),
             items: req.body.items
