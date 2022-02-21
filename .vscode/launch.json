@@ -1,0 +1,35 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug typescript",
+            "type": "node",
+            "request": "launch",
+            "smartStep": false,
+            "sourceMaps": true,
+            "args": [
+                "${workspaceFolder}/src/server.ts"
+            ],
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register/transpile-only"
+            ],
+            "cwd": "${workspaceFolder}",
+            "protocol": "inspector",
+            "internalConsoleOptions": "openOnSessionStart",
+            "env": {
+                "DEBUG": "store:*",
+                "TS_NODE_FILES": "true"
+            },
+            "skipFiles": [
+                "<node_internals>/*",
+                "<node_internals>/**",
+                "<node_internals>/**/*",
+                "${workspaceFolder}/node_modules/**",
+                "${workspaceFolder}/node_modules/**/*"
+            ],
+            "outputCapture": "std",
+            "stopOnEntry": false
+        }
+    ]
+}

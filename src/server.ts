@@ -1,6 +1,7 @@
-const app = require('../src/app');
-const http = require('http');
-const debug = require('debug')('store:server');
+import * as http from 'http';
+import app from './app';
+import Debug from 'debug';
+const debug = Debug('store:server');
 
 const port = normalizePort(process.env.PORT || '3000');
 
@@ -13,7 +14,7 @@ server.listen(port);
 /**
  * Normalize a port into a number, string, or false.
  */
-function normalizePort(val) {
+function normalizePort(val: string): string | number | false {
     var port = parseInt(val, 10);
 
     if (isNaN(port)) {
@@ -29,7 +30,7 @@ function normalizePort(val) {
     return false;
 }
 
-function onError(error) {
+function onError(error: any): void {
     if (error.syscall !== 'listen') {
         throw error;
     }
@@ -42,20 +43,18 @@ function onError(error) {
         case 'EACCES':
             console.error(bind + ' requires elevated privileges');
             process.exit(1);
-            break;
         case 'EADDRINUSE':
             console.error(bind + ' is already in use');
             process.exit(1);
-            break;
         default:
             throw error;
     }
 }
 
-function onListening() {
+function onListening(): void {
     const addr = server.address();
     const bind = typeof addr === 'string'
         ? 'pipe ' + addr
-        : 'port ' + addr.port;
+        : 'port ' + addr?.port;
     debug('Listening on ' + bind);
 }

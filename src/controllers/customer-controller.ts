@@ -1,10 +1,11 @@
-const ValidationContract = require('../validators/fluent-validator');
-const repository = require('../repositories/customer-repository');
-const emailService = require('../services/email-service');
-const authService = require('../services/auth-service');
-const md5 = require('md5');
+import { Request, Response, NextFunction } from 'express';
+import ValidationContract from '../validators/fluent-validator';
+import * as repository from '../repositories/customer-repository';
+import * as emailService from '../services/email-service';
+import * as authService from '../services/auth-service';
+import md5 from 'md5';
 
-exports.post = async (req, res, next) => {
+export async function post(req: Request, res: Response, next: NextFunction): Promise<void> {
     var contract = new ValidationContract();
     contract.hasMinLen(req.body.name, 3, 'Name must have at least 3 characters');
     contract.isEmail(req.body.email, 'Invalid e-mail');
@@ -23,6 +24,7 @@ exports.post = async (req, res, next) => {
             roles: ["user"]
         });
 
+        // No need to 'await' for e-mail to be sent.
         emailService.send(req.body.email, 'Welcome to Node Store', global.EMAIL_TMPL.replace('{0}', req.body.name));
 
         res.status(201).send({
@@ -35,7 +37,7 @@ exports.post = async (req, res, next) => {
     }
 };
 
-exports.authenticate = async (req, res, next) => {
+export async function authenticate(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         const customer = await repository.authenticate({
             email: req.body.email,
@@ -70,7 +72,7 @@ exports.authenticate = async (req, res, next) => {
     }
 }
 
-exports.refresh = async (req, res, next) => {
+export async function refresh(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         const token = req.body.token || req.params.token || req.headers['x-access-token'];
         const data = authService.decodeToken(token);
